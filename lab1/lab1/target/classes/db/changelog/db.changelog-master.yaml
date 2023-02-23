@@ -1,0 +1,35 @@
+databaseChangeLog:
+- changeSet:
+    id: 1
+    author: outofbound
+    changes:
+    - createTable:
+        tableName: product
+        columns:
+        - column:
+            name: id
+            type: int
+            constraints:
+              primaryKey:  true
+              nullable:  false
+        - column:
+            name: category
+            type: varchar(255)
+        - column:
+            name: count
+            type: int
+        - column:
+            name: name
+            type: varchar(255)
+        - column:
+            name: photo
+            type: varchar(255)
+- changeSet:
+    id: addAutoIncrement-example
+    author: outofbound
+    changes:
+    - addAutoIncrement:
+        columnName: id
+        generationType: BY DEFAULT
+        incrementBy: 1
+        tableName: product

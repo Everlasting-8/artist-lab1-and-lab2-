@@ -1,0 +1,402 @@
+databaseChangeLog:
+- changeSet:
+    id: 1-product-create
+    author: outofbound (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: product_pkey
+            name: id
+            type: INTEGER
+        - column:
+            name: category
+            type: VARCHAR(255)
+        - column:
+            name: count
+            type: INTEGER
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: photo
+            type: VARCHAR(255)
+        tableName: product
+- changeSet:
+    id: 2-user-create
+    author: outofbound (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: registered_user_pkey
+            name: id
+            type: INTEGER
+        - column:
+            name: login
+            type: VARCHAR(255)
+        - column:
+            name: password_hash
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: role_id
+            type: INTEGER
+        tableName: registered_user
+- changeSet:
+    id: 3-role-create
+    author: outofbound (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: role_pkey
+            name: id
+            type: INTEGER
+        - column:
+            name: name
+            type: VARCHAR(255)
+        tableName: role
+- changeSet:
+    id: 4-role_id-fk-add
+    author: outofbound (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: role_id
+        baseTableName: registered_user
+        constraintName: fkk1u0yu2k8cqk1gqomrc744446
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: role
+        validate: true
+- changeSet:
+    id: 1-create-order_position
+    author: outofbound (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: order_positions_pkey
+            name: position_id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: order_positions_pkey
+            name: order_id
+            type: INTEGER
+        tableName: order_positions
+- changeSet:
+    id: 2-create-table-placed_order
+    author: outofbound (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: placed_order_pkey
+            name: id
+            type: INTEGER
+        - column:
+            name: order_status
+            type: VARCHAR(255)
+        - column:
+            name: timestamp
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: user_id
+            type: INTEGER
+        tableName: placed_order
+- changeSet:
+    id: 3-create-position
+    author: outofbound (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: position_pkey
+            name: id
+            type: INTEGER
+        - column:
+            name: description
+            type: VARCHAR(255)
+        - column:
+            name: is_closed
+            type: BOOLEAN
+        - column:
+            name: photo
+            type: VARCHAR(255)
+        - column:
+            name: price
+            type: INTEGER
+        - column:
+            name: title
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: recipe_id
+            type: INTEGER
+        tableName: position
+- changeSet:
+    id: 4-create-product
+    author: outofbound (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: product_pkey
+            name: id
+            type: INTEGER
+        - column:
+            name: category
+            type: VARCHAR(255)
+        - column:
+            name: count
+            type: INTEGER
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: photo
+            type: VARCHAR(255)
+        tableName: product
+- changeSet:
+    id: 5-create-recipe
+    author: outofbound (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: recipe_pkey
+            name: id
+            type: INTEGER
+        - column:
+            name: description
+            type: VARCHAR(255)
+        - column:
+            name: title
+            type: VARCHAR(255)
+        tableName: recipe
+- changeSet:
+    id: 6-create-counts
+    author: outofbound (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: recipe_product_pkey
+            name: product_id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: recipe_product_pkey
+            name: recipe_id
+            type: INTEGER
+        - column:
+            name: count
+            type: INTEGER
+        tableName: recipe_product
+- changeSet:
+    id: 1665137842651-7
+    author: outofbound (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: registered_user_pkey
+            name: id
+            type: INTEGER
+        - column:
+            name: login
+            type: VARCHAR(255)
+        - column:
+            name: password_hash
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: role_id
+            type: INTEGER
+        tableName: registered_user
+- changeSet:
+    id: 1665137842651-8
+    author: outofbound (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: role_pkey
+            name: id
+            type: INTEGER
+        - column:
+            name: name
+            type: VARCHAR(255)
+        tableName: role
+- changeSet:
+    id: 1665137842651-9
+    author: outofbound (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: product_id
+        baseTableName: recipe_product
+        constraintName: fk935n2g21lw35urnpf7vwcyp0w
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: product
+        validate: true
+- changeSet:
+    id: 1665137842651-10
+    author: outofbound (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: recipe_id
+        baseTableName: recipe_product
+        constraintName: fkb3poss884qc7j3wsvbq63aad3
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: recipe
+        validate: true
+- changeSet:
+    id: 1665137842651-11
+    author: outofbound (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: order_id
+        baseTableName: order_positions
+        constraintName: fkh8u2vk026yb04bcqlydd8u84a
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: placed_order
+        validate: true
+- changeSet:
+    id: 1665137842651-12
+    author: outofbound (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: role_id
+        baseTableName: registered_user
+        constraintName: fkk1u0yu2k8cqk1gqomrc744446
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: role
+        validate: true
+- changeSet:
+    id: 1665137842651-13
+    author: outofbound (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: placed_order
+        constraintName: fknaullyb5404q05iyjtekhu4nt
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: registered_user
+        validate: true
+- changeSet:
+    id: 1665137842651-14
+    author: outofbound (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: position_id
+        baseTableName: order_positions
+        constraintName: fknmh9plxgim6ws75e3p1uin3re
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: position
+        validate: true
+- changeSet:
+    id: 1665137842651-15
+    author: outofbound (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: recipe_id
+        baseTableName: position
+        constraintName: fkpk9je71j260r0vdasj7f4kp11
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: recipe
+        validate: true
+- changeSet:
+    id: createView
+    author: outofbound (generated)
+    changes:
+    -  createView:
+           encoding: UTF-8
+           fullDefinition: false
+           replaceIfExists: true
+           schemaName: public
+           selectQuery:  select pos.id as position_id, pos.description, rp.count as required_count, p.id as product_id, p.name, p.count as stored_count from position pos join recipe_product rp on rp.recipe_id = pos.recipe_id join product p on p.id = rp.product_id
+           viewName:  v_order_count_check
+
