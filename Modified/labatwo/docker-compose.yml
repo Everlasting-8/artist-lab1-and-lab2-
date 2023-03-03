@@ -1,0 +1,149 @@
+version: "3.7"
+
+services:
+  labtwo_pg:
+    image: postgres:14
+    container_name: labtwo_pg
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: labtwo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+    volumes:
+      - ./postgres/db:/var/lib/postgresql/data
+
+  eureka-server:
+    image: aixoxs/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    expose:
+      - "8761"
+    environment:
+      SERVER_PORT: 8761
+
+  config-server:
+    image: aixoxs/config-server:latest
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    environment:
+      SERVER_PORT: 8888
+      eureka.client.service-url.defaultZone: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+
+  gateway_service:
+    image: aixoxs/gateway-service:latest
+    container_name: gateway-service
+    ports:
+      - "8080:8080"
+    environment:
+      SERVER_PORT: 8080
+      CONFIG_HOST: config-server
+      CONFIG_PORT: 8888
+      eureka.client.service-url.defaultZone: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - config-server
+
+  auth-facade:
+    image: aixoxs/auth-facade:latest
+    container_name: auth-facade
+    ports:
+      - "8086:8086"
+    environment:
+      SERVER_PORT: 8086
+      eureka.client.service-url.defaultZone: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - config-server
+
+  auth-reactive-facade:
+    image: aixoxs/auth-reactive-facade:latest
+    container_name: auth-reactive-facade
+    ports:
+      - "8087:8087"
+    environment:
+      SERVER_PORT: 8087
+      eureka.client.service-url.defaultZone: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - config-server
+
+  user-managment-service:
+    image: aixoxs/user-managment-service:latest
+    container_name: user-managment-service
+    ports:
+      - "8084:8084"
+    environment:
+      SERVER_PORT: 8074
+      CONFIG_HOST: config-server
+      CONFIG_PORT: 8888
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      spring.r2dbc.url: r2dbc:postgresql://labtwo_pg/labtwo?currentSchema=user_info
+      spring.liquibase.url: jdbc:postgresql://labtwo_pg:5433/labtwo?currentSchema=user_info
+      eureka.client.service-url.defaultZone: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - config-server
+      - labtwo_pg
+  
+  basket-managment-service:
+    image: aixoxs/basket-managment-service:latest
+    container_name: basket-managment-service
+    ports:
+      - "8084:8084"
+    environment:
+      SERVER_PORT: 8075
+      CONFIG_HOST: config-server
+      CONFIG_PORT: 8888
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      spring.r2dbc.url: r2dbc:postgresql://labtwo_pg/labtwo?currentSchema=basket_info
+      spring.liquibase.url: jdbc:postgresql://labtwo_pg:5433/labtwo?currentSchema=basket_info
+      eureka.client.service-url.defaultZone: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - config-server
+      - labtwo_pg
+    
+  product-managment-service:
+    image: aixoxs/product-managment-service:latest
+    container_name: product-managment-service
+    ports:
+      - "8084:8084"
+    environment:
+      SERVER_PORT: 8076
+      CONFIG_HOST: config-server
+      CONFIG_PORT: 8888
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      spring.r2dbc.url: r2dbc:postgresql://labtwo_pg/labtwo?currentSchema=product_info
+      spring.liquibase.url: jdbc:postgresql://labtwo_pg:5433/labtwo?currentSchema=product_info
+      eureka.client.service-url.defaultZone: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - config-server
+      - labtwo_pg
+  
+  order-managment-service:
+    image: aixoxs/order-managment-service:latest
+    container_name: order-managment-service
+    ports:
+      - "8084:8084"
+    environment:
+      SERVER_PORT: 8077
+      CONFIG_HOST: config-server
+      CONFIG_PORT: 8888
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      spring.r2dbc.url: r2dbc:postgresql://labtwo_pg/labtwo?currentSchema=order_info
+      spring.liquibase.url: jdbc:postgresql://labtwo_pg:5433/labtwo?currentSchema=order_info
+      eureka.client.service-url.defaultZone: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - config-server
+      - labtwo_pg
